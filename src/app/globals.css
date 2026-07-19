@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --domus-magenta: #e91e63;
+  --domus-green: #4caf50;
+  --domus-blue: #1e88e5;
+  --domus-orange: #ff9800;
+  --domus-gold: #c9a227;
+  --ink: #1a1a1a;
+  --stone: #5c5c5c;
+  --fog: #f5f5f5;
+  --white: #ffffff;
+  --line: #e0e0e0;
+  --background: var(--white);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-stone: var(--stone);
+  --color-fog: var(--fog);
+  --color-line: var(--line);
+  --color-orange: var(--domus-orange);
+  --color-magenta: var(--domus-magenta);
+  --color-green: var(--domus-green);
+  --color-blue: var(--domus-blue);
+  --color-gold: var(--domus-gold);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--domus-orange) 35%, white);
+}
+
+:focus-visible {
+  outline: 2px solid var(--domus-orange);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.brand-stripe {
+  background: linear-gradient(
+    90deg,
+    var(--domus-magenta),
+    var(--domus-green),
+    var(--domus-blue),
+    var(--domus-orange)
+  );
+  height: 4px;
+}
