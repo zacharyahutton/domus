@@ -23,14 +23,7 @@ export function Header() {
 
   useEffect(() => {
     let lastY = window.scrollY;
-    let isHidden = false;
-    // Accumulated continuous downward travel. Resets to 0 on any upward movement.
-    // This prevents the header from hiding on a single scroll-wheel tick or a tiny
-    // touchpad nudge — the user must scroll intentionally before it disappears.
-    let downAccum = 0;
     let rafId: number | undefined;
-    // px of uninterrupted downward travel required to hide (desktop).
-    const HIDE_PX = 150;
 
     const process = () => {
       rafId = undefined;
@@ -40,50 +33,29 @@ export function Header() {
 
       setScrolled(y > 24);
 
-      // window.innerWidth is an integer read — cheaper than matchMedia per frame.
-      const desktop = window.innerWidth >= 1024;
+      // Desktop: header never hides; only TopUtilityBar scrolls away on desktop.
+      if (window.innerWidth >= 1024) return;
 
-      if (desktop) {
-        if (y <= 80) {
-          // Always visible near the top; reset accumulated travel.
-          if (isHidden) { isHidden = false; setHeaderHidden(false); }
-          downAccum = 0;
-        } else if (isHidden) {
-          // Hidden → show immediately on any upward movement.
-          if (delta < 0) {
-            isHidden = false;
-            downAccum = 0;
-            setHeaderHidden(false);
-          }
-        } else {
-          // Visible → accumulate downward travel; reset on any upward jitter.
-          if (delta > 0) {
-            downAccum += delta;
-            if (downAccum >= HIDE_PX) {
-              isHidden = true;
-              setHeaderHidden(true);
-            }
-          } else if (delta < 0) {
-            // Upward movement breaks the streak — start the 150 px count fresh.
-            downAccum = 0;
-          }
-        }
-      } else {
-        // Mobile: softer hysteresis — top bar should not vanish too quickly.
-        if (delta > 14 && y > 220) setHeaderHidden(true);
-        else if (delta < -10 || y < 80) setHeaderHidden(false);
-      }
+      // Mobile only: hide on intentional downward scroll, show on upward.
+      if (delta > 14 && y > 220) setHeaderHidden(true);
+      else if (delta < -10 || y < 80) setHeaderHidden(false);
     };
 
     const onScroll = () => {
-      // rAF-throttle: coalesce rapid scroll events into one frame.
       if (rafId === undefined) rafId = requestAnimationFrame(process);
+    };
+
+    // Force visible when resizing to desktop (e.g. if hidden while mobile).
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setHeaderHidden(false);
     };
 
     process();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
       if (rafId !== undefined) cancelAnimationFrame(rafId);
     };
   }, []);
