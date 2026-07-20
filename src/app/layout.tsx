@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Montserrat, Source_Sans_3 } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { DomusAssistant } from "@/components/layout/DomusAssistant";
+import { NewsletterPopup } from "@/components/forms/NewsletterPopup";
 import { localBusinessJsonLd } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/site-url";
 import { siteConfig } from "@/content/site";
 import "./globals.css";
 
@@ -18,8 +21,10 @@ const body = Source_Sans_3({
   weight: ["400", "500", "600", "700"],
 });
 
+const noIndex = process.env.NEXT_PUBLIC_NOINDEX === "1";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: `${siteConfig.shortName} | Caribbean uPVC Windows & Doors`,
     template: `%s | ${siteConfig.shortName}`,
@@ -32,7 +37,9 @@ export const metadata: Metadata = {
     locale: "en_JM",
     type: "website",
   },
-  robots: { index: true, follow: true },
+  robots: noIndex
+    ? { index: false, follow: false }
+    : { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -42,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${display.variable} ${body.variable} flex min-h-screen flex-col antialiased`}>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-orange focus:px-3 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-cta focus:px-3 focus:py-2 focus:text-white"
         >
           Skip to content
         </a>
@@ -51,10 +58,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <main id="main" className="flex-1">
+        <main id="main" className="flex-1 pb-24 lg:pb-0">
           {children}
         </main>
         <Footer />
+        <DomusAssistant />
+        <NewsletterPopup />
       </body>
     </html>
   );

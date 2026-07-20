@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-/** Lead payload — adapted from Patterns/Active/Lead-Funnel + Form-System; extended for Domus. */
+/** Lead payload: Lead-Funnel + Form-System, extended for Domus converting quotes. */
 export const leadSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(200),
@@ -21,6 +21,11 @@ export const leadSchema = z.object({
   location: z.string().trim().max(120).optional(),
   budget: z.string().trim().max(80).optional(),
   timeline: z.string().trim().max(80).optional(),
+  openingsCount: z.string().trim().max(40).optional(),
+  audience: z
+    .enum(["Homeowner", "Builder", "Distributor", "Other"])
+    .optional(),
+  preferredContact: z.enum(["Email", "Phone", "WhatsApp"]).optional(),
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;

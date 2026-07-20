@@ -41,3 +41,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cursor workspace cache images (auto-saved to Brand/References/ during chats)
+Brand/References/c__Users_*
+
+# Large 3D assets (over GitHub 100MB limit - store separately if needed)
+*.glb
+*.gltf
+*.fbx

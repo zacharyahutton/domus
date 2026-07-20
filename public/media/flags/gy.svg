@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 18" width="48" height="29" role="img" aria-label="Guyana">
+  <rect width="30" height="18" fill="#009E49"/>
+  <polygon points="0,0 30,9 0,18" fill="#fff"/>
+  <polygon points="0,1 27,9 0,17" fill="#FCD116"/>
+  <polygon points="0,0 14,9 0,18" fill="#000"/>
+  <polygon points="0,1.5 12,9 0,16.5" fill="#CE1126"/>
+</svg>

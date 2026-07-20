@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/content/site";
-
-const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+import { getSiteUrl } from "@/lib/site-url";
 
 export function absoluteUrl(path = "/") {
-  return new URL(path, base).toString();
+  return new URL(path, getSiteUrl()).toString();
 }
 
 export function createMetadata({
@@ -12,11 +11,13 @@ export function createMetadata({
   description,
   path = "/",
   image,
+  noIndex = false,
 }: {
   title: string;
   description: string;
   path?: string;
   image?: string;
+  noIndex?: boolean;
 }): Metadata {
   const url = absoluteUrl(path);
   const ogImage = image ?? absoluteUrl("/brand/logo.png");
@@ -24,6 +25,7 @@ export function createMetadata({
     title,
     description,
     alternates: { canonical: url },
+    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {
       title,
       description,
@@ -42,14 +44,14 @@ export function createMetadata({
   };
 }
 
-/** LocalBusiness JSON-LD — first principles from SEO/JSON-LD guide (G2). */
+/** LocalBusiness JSON-LD — SEO Knowledge first principles (no invented street address). */
 export function localBusinessJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     name: siteConfig.name,
     description: siteConfig.description,
-    url: siteConfig.url,
+    url: getSiteUrl(),
     email: siteConfig.email,
     telephone: siteConfig.jamaica.officeTel,
     areaServed: [
@@ -66,5 +68,47 @@ export function localBusinessJsonLd() {
       siteConfig.social.instagram,
       siteConfig.social.youtube,
     ],
+  };
+}
+
+export function faqPageJsonLd(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+export function articleJsonLd({
+  title,
+  description,
+  path,
+  date,
+  image,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  date: string;
+  image?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    datePublished: date,
+    author: { "@type": "Organization", name: siteConfig.name },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/brand/logo.png") },
+    },
+    mainEntityOfPage: absoluteUrl(path),
+    image: image ? [image] : [absoluteUrl("/brand/logo.png")],
   };
 }

@@ -3,7 +3,8 @@ export type ProjectCategory =
   | "Doors"
   | "Fencing"
   | "Handrails"
-  | "Before/After";
+  | "Before/After"
+  | "Gallery";
 
 export type Project = {
   slug: string;
@@ -15,6 +16,8 @@ export type Project = {
   year: number;
   featured?: boolean;
   beforeAfter?: boolean;
+  beforeSrc?: string;
+  afterSrc?: string;
   image: { src: string; alt: string };
   gallery: { src: string; alt: string }[];
 };
@@ -34,18 +37,13 @@ export const projects: Project[] = [
     year: 2024,
     featured: true,
     image: {
-      src: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80",
-      alt: "Contemporary home exterior with large white-framed windows",
+      src: "/media/gallery/performance/multi-unit/gallery-9-.jpg",
+      alt: "Contemporary Kingston home with white Domus-style window frames",
     },
     gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
-        alt: "Exterior window elevation",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1600573472591-ee6981cf4b68?auto=format&fit=crop&w=1200&q=80",
-        alt: "Interior daylight through new glazing",
-      },
+      { src: "/media/gallery/performance/multi-unit/gallery-9-.jpg", alt: "Exterior window elevation" },
+      { src: "/media/products/casement.jpg", alt: "Casement detail" },
+      { src: "/media/gallery/kitchen-openings.jpg", alt: "Interior daylight" },
     ],
   },
   {
@@ -62,43 +60,38 @@ export const projects: Project[] = [
     year: 2025,
     featured: true,
     image: {
-      src: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1600&q=80",
-      alt: "Villa patio with sliding glass doors",
+      src: "/media/gallery/security/double-swing-doors/_dsc4002.jpg",
+      alt: "Villa patio with Domus sliding glass doors",
     },
     gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80",
-        alt: "Patio sliding doors",
-      },
+      { src: "/media/gallery/security/double-swing-doors/_dsc4002.jpg", alt: "Patio sliding doors" },
+      { src: "/media/products/sliding-door.jpg", alt: "Sliding door product" },
+      { src: "/media/gallery/interior-doors.jpg", alt: "Interior door light" },
     ],
   },
   {
     slug: "spanish-town-before-after",
-    title: "Spanish Town Before & After",
+    title: "Spanish Town Elevation Refresh",
     location: "Spanish Town, Jamaica",
     category: "Before/After",
     beforeAfter: true,
     featured: true,
     summary:
-      "Steel rust stains and loose putty glass out — white Domus uPVC in. A classic Mr. Domus education story.",
+      "Ageing openings out — white Domus uPVC in. A classic transformation for a familiar Jamaica streetscape.",
     body: [
-      "Before: rusting steel frames, failing putty, and hot rooms. After: white Domus windows with a clean silhouette that photographs as sharply as it performs.",
-      "We document transformations like this so homeowners can see what climate-ready openings look like on familiar Jamaica streetscapes.",
+      "Before: tired frames and hot rooms. After: white Domus windows with a clean silhouette that photographs as sharply as it performs.",
+      "We document transformations like this so homeowners can see what climate-ready openings look like on familiar Jamaica elevations.",
     ],
     year: 2023,
+    beforeSrc: "/media/ba/before-1.jpg",
+    afterSrc: "/media/ba/after-1.jpg",
     image: {
-      src: "https://images.unsplash.com/photo-1600047509358-9dc7556c6266?auto=format&fit=crop&w=1600&q=80",
-      alt: "Renovated home facade with fresh white frames",
+      src: "/media/ba/after-1.jpg",
+      alt: "Renovated home facade with fresh white Domus frames",
     },
     gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80",
-        alt: "Before-style ageing exterior reference",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1600047509358-9dc7556c6266?auto=format&fit=crop&w=1200&q=80",
-        alt: "After — clean white Domus-style openings",
-      },
+      { src: "/media/ba/before-1.jpg", alt: "Before — ageing exterior" },
+      { src: "/media/ba/after-1.jpg", alt: "After — Domus openings" },
     ],
   },
   {
@@ -111,16 +104,12 @@ export const projects: Project[] = [
       "The family wanted a bright, durable boundary that would survive humidity. Domus fencing delivered a consistent white line that pairs with their new windows.",
     ],
     year: 2024,
+    featured: true,
     image: {
-      src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=80",
-      alt: "White privacy fencing in a residential yard",
+      src: "/media/products/fence-cover.jpg",
+      alt: "Domus privacy fencing on a Caribbean elevation",
     },
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
-        alt: "Fence line detail",
-      },
-    ],
+    gallery: [{ src: "/media/products/fence-cover.jpg", alt: "Fence and boundary detail" }],
   },
   {
     slug: "ochi-balcony-handrails",
@@ -132,16 +121,12 @@ export const projects: Project[] = [
       "Ironwork was staining façades. Domus handrail profiles replaced rust-prone metal with climate-minded outdoor systems.",
     ],
     year: 2025,
+    featured: true,
     image: {
-      src: "https://images.unsplash.com/photo-1600047509807-ba8f99d367e3?auto=format&fit=crop&w=1600&q=80",
-      alt: "Balcony handrail on hillside homes",
+      src: "/media/products/handrails-hero.jpg",
+      alt: "Balcony handrails on a coastal residence",
     },
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1600047509807-ba8f99d367e3?auto=format&fit=crop&w=1200&q=80",
-        alt: "Handrail detail",
-      },
-    ],
+    gallery: [{ src: "/media/products/handrails-hero.jpg", alt: "Handrail elevation" }],
   },
   {
     slug: "mandeville-school-wing",
@@ -154,15 +139,86 @@ export const projects: Project[] = [
     ],
     year: 2022,
     image: {
-      src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
-      alt: "Daylit institutional corridor with large windows",
+      src: "/media/gallery/city-windows.jpg",
+      alt: "Daylit institutional windows",
     },
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
-        alt: "Classroom daylight",
-      },
+    gallery: [{ src: "/media/gallery/city-windows.jpg", alt: "Classroom daylight" }],
+  },
+  {
+    slug: "harbour-view-before-after",
+    title: "Harbour View Living Room Openings",
+    location: "Harbour View, Jamaica",
+    category: "Before/After",
+    beforeAfter: true,
+    featured: true,
+    summary: "Dim, leaking aluminium out — bright Domus patio doors and flanking windows in.",
+    body: [
+      "The family wanted a brighter living room that still sealed against rainy-season wind-driven rain.",
+      "Domus sliding doors and casements delivered daylight without the salt fatigue of the old aluminium set.",
     ],
+    year: 2024,
+    beforeSrc: "/media/ba/before-2.jpg",
+    afterSrc: "/media/ba/after-2.jpg",
+    image: { src: "/media/ba/after-2.jpg", alt: "Bright living space after Domus install" },
+    gallery: [
+      { src: "/media/ba/before-2.jpg", alt: "Before living room" },
+      { src: "/media/ba/after-2.jpg", alt: "After Domus openings" },
+    ],
+  },
+  {
+    slug: "st-ann-villa-before-after",
+    title: "St Ann Villa Facade Pair",
+    location: "St Ann, Jamaica",
+    category: "Before/After",
+    beforeAfter: true,
+    summary: "Empty rough openings versus finished Domus frames on a hillside villa.",
+    body: [
+      "New-build elevations often look unfinished until frames land. Domus white uPVC completes the silhouette.",
+    ],
+    year: 2025,
+    beforeSrc: "/media/ba/before-3.jpg",
+    afterSrc: "/media/ba/after-3.jpg",
+    image: { src: "/media/ba/after-3.jpg", alt: "Villa facade with Domus frames" },
+    gallery: [
+      { src: "/media/ba/before-3.jpg", alt: "Before — incomplete openings" },
+      { src: "/media/ba/after-3.jpg", alt: "After — Domus finished" },
+    ],
+  },
+  {
+    slug: "showroom-casement-gallery",
+    title: "Casement Detail Study",
+    location: "Domus Showroom",
+    category: "Gallery",
+    summary: "Close look at Domus casement operation, hardware, and white frame finish.",
+    body: ["Product photography from the Domus line — casement windows ready for Caribbean installs."],
+    year: 2025,
+    image: { src: "/media/products/casement.jpg", alt: "Domus casement window detail" },
+    gallery: [
+      { src: "/media/products/casement.jpg", alt: "Casement" },
+      { src: "/media/products/awning.jpg", alt: "Awning" },
+    ],
+  },
+  {
+    slug: "multiunit-elevation-gallery",
+    title: "Multi-Unit Elevation",
+    location: "Caribbean Residence",
+    category: "Gallery",
+    summary: "Combined window types in one elevation — Performance and Supreme configurations.",
+    body: ["Multi-unit assemblies let homeowners mix picture and operating sashes without aluminium seams."],
+    year: 2024,
+    image: { src: "/media/products/multiunit.jpg", alt: "Domus multi-unit window elevation" },
+    gallery: [{ src: "/media/products/multiunit.jpg", alt: "Multi-unit" }],
+  },
+  {
+    slug: "kitchen-daylight-gallery",
+    title: "Kitchen Daylight Openings",
+    location: "Jamaica",
+    category: "Gallery",
+    summary: "Bright kitchen glazing that stays wipe-clean through cooking humidity and sun.",
+    body: ["White Domus frames keep kitchens cooler and easier to maintain than painted steel."],
+    year: 2025,
+    image: { src: "/media/gallery/kitchen-openings.jpg", alt: "Kitchen with large glazed openings" },
+    gallery: [{ src: "/media/gallery/kitchen-openings.jpg", alt: "Kitchen openings" }],
   },
 ];
 
@@ -172,6 +228,7 @@ export const projectCategories: ProjectCategory[] = [
   "Fencing",
   "Handrails",
   "Before/After",
+  "Gallery",
 ];
 
 export function getProject(slug: string) {

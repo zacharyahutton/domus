@@ -1,0 +1,5 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="48" height="24" role="img" aria-label="Jamaica">
+  <path fill="#007A5E" d="M0 0h1200v600H0z"/>
+  <path stroke="#FCD116" stroke-width="120" d="M0 0l1200 600M1200 0L0 600"/>
+  <path stroke="#000" stroke-width="80" d="M0 0l1200 600M1200 0L0 600"/>
+</svg>

@@ -1,3 +1,7 @@
+/**
+ * Lead schema contract — mirrors src/lib/lead.ts enums (keep in sync manually;
+ * Node test cannot import TS without a loader).
+ */
 import assert from "node:assert/strict";
 import { z } from "zod";
 
@@ -8,10 +12,12 @@ const leadSchema = z.object({
   message: z.string().trim().min(10).max(4000),
   source: z.string().trim().max(80).default("website"),
   honeypot: z.string().max(200).optional().default(""),
-  projectType: z.string().optional(),
-  location: z.string().optional(),
-  budget: z.string().optional(),
-  timeline: z.string().optional(),
+  projectType: z
+    .enum(["Windows", "Doors", "Fencing", "Handrails", "Multiple", "Not sure"])
+    .optional(),
+  location: z.string().trim().max(120).optional(),
+  budget: z.string().trim().max(80).optional(),
+  timeline: z.string().trim().max(80).optional(),
 });
 
 const good = leadSchema.safeParse({

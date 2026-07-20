@@ -5,6 +5,8 @@
   --domus-green: #4caf50;
   --domus-blue: #1e88e5;
   --domus-orange: #ff9800;
+  /* Darker CTA fill for WCAG AA contrast with white text */
+  --domus-cta: #b35f00;
   --domus-gold: #c9a227;
   --ink: #1a1a1a;
   --stone: #5c5c5c;
@@ -23,6 +25,7 @@
   --color-fog: var(--fog);
   --color-line: var(--line);
   --color-orange: var(--domus-orange);
+  --color-cta: var(--domus-cta);
   --color-magenta: var(--domus-magenta);
   --color-green: var(--domus-green);
   --color-blue: var(--domus-blue);
@@ -54,12 +57,17 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
+/* Fixed transparent header overlays hero; content pages use pt-28 on their heroes. */
+.page-shell {
+  padding-top: 5.5rem;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--domus-orange) 35%, white);
 }
 
 :focus-visible {
-  outline: 2px solid var(--domus-orange);
+  outline: 2px solid var(--domus-cta);
   outline-offset: 3px;
 }
 
@@ -76,4 +84,21 @@ body {
     var(--domus-orange)
   );
   height: 4px;
+}
+
+/*
+ * Header hide/show transition.
+ * Defined in CSS — not Tailwind dynamic classes — because Tailwind v4 translate
+ * utilities use CSS custom properties (--tw-translate-y) fed into the native
+ * `translate` CSS property. CSS transitions watch computed values, not variable
+ * values, so toggling Tailwind translate classes silently breaks the animation.
+ * Inline style={{ transform }} sets a concrete property; this class transitions it.
+ */
+.site-header {
+  transition:
+    transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
