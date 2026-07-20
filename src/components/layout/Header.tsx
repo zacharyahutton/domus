@@ -23,9 +23,14 @@ export function Header() {
 
   useEffect(() => {
     let lastY = window.scrollY;
-    // Accumulated upward scroll — prevents flicker on tiny scroll-up jitter.
-    let upAccum = 0;
+    let isHidden = false;
+    // Accumulated continuous downward travel. Resets to 0 on any upward movement.
+    // This prevents the header from hiding on a single scroll-wheel tick or a tiny
+    // touchpad nudge — the user must scroll intentionally before it disappears.
+    let downAccum = 0;
     let rafId: number | undefined;
+    // px of uninterrupted downward travel required to hide (desktop).
+    const HIDE_PX = 150;
 
     const process = () => {
       rafId = undefined;
@@ -35,22 +40,33 @@ export function Header() {
 
       setScrolled(y > 24);
 
-      // Use window.innerWidth (integer, no media-query overhead) for breakpoint.
+      // window.innerWidth is an integer read — cheaper than matchMedia per frame.
       const desktop = window.innerWidth >= 1024;
 
       if (desktop) {
-        if (delta > 0 && y > 80) {
-          // Scrolling down past threshold → hide.
-          upAccum = 0;
-          setHeaderHidden(true);
-        } else if (delta < 0) {
-          // Scrolling up — require ≥20 px of upward travel before showing,
-          // so Windows smooth-scroll micro-events don't flicker the header.
-          upAccum += -delta;
-          if (upAccum >= 20 || y < 80) setHeaderHidden(false);
-        } else if (y < 48) {
-          upAccum = 0;
-          setHeaderHidden(false);
+        if (y <= 80) {
+          // Always visible near the top; reset accumulated travel.
+          if (isHidden) { isHidden = false; setHeaderHidden(false); }
+          downAccum = 0;
+        } else if (isHidden) {
+          // Hidden → show immediately on any upward movement.
+          if (delta < 0) {
+            isHidden = false;
+            downAccum = 0;
+            setHeaderHidden(false);
+          }
+        } else {
+          // Visible → accumulate downward travel; reset on any upward jitter.
+          if (delta > 0) {
+            downAccum += delta;
+            if (downAccum >= HIDE_PX) {
+              isHidden = true;
+              setHeaderHidden(true);
+            }
+          } else if (delta < 0) {
+            // Upward movement breaks the streak — start the 150 px count fresh.
+            downAccum = 0;
+          }
         }
       } else {
         // Mobile: softer hysteresis — top bar should not vanish too quickly.
@@ -60,12 +76,10 @@ export function Header() {
     };
 
     const onScroll = () => {
-      // rAF-throttle: coalesce rapid scroll events into one frame, giving a
-      // reliable total-delta rather than per-event micro-deltas.
+      // rAF-throttle: coalesce rapid scroll events into one frame.
       if (rafId === undefined) rafId = requestAnimationFrame(process);
     };
 
-    // Run once to set initial state.
     process();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
