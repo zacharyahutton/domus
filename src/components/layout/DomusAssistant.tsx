@@ -26,7 +26,11 @@ export function DomusAssistant() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
+    <div
+      className={`fixed z-[60] flex flex-col items-end gap-3 transition-opacity bottom-[4.5rem] right-4 lg:bottom-5 lg:right-5 ${
+        open ? "opacity-100" : "opacity-80 hover:opacity-100 focus-within:opacity-100"
+      }`}
+    >
       {open ? (
         <div
           className="flex h-[min(520px,70vh)] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-2xl"
